@@ -3,7 +3,7 @@ DSLWP_Tracker
 
 Install
 ----------
-(1) git clone https://github.com/Hamlib/Hamlib.git  
+(1) Download the latest Hamlib source code from <https://github.com/Hamlib/Hamlib/releases> (Version >= 3.2)  
 (2) ./configure  
 (3) make  
 (4) sudo make install  
