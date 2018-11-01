@@ -17,4 +17,4 @@ Run
 (3) run rotctld  
     example: <sudo rotctld --model=903 --rot-file=/dev/ttyUSB0 --serial-speed=9600 -T 127.0.0.1 -t 4533>  
     see the detail in <http://hamlib.sourceforge.net/pdf/rotctld.8.pdf>  
-(3) python track.py  
+(3) python tracker.py  
