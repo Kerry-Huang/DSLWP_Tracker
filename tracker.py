@@ -1,6 +1,14 @@
 import re,time,math,socket,os,ConfigParser
 from datetime import datetime
 
+################ Mark ################
+INFO = "[\033[32mINFO\033[0m]"
+ERROR = "[\033[31mERROR\033[0m]"
+SUCCESS = "[\033[32mSUEECSS\033[0m]"
+WARNING = "[\033[33mWARNING\033[0m]"
+######################################
+
+############### Config ###############
 cp = ConfigParser.SafeConfigParser()
 cp.read('./config.ini')
 file_path = cp.get('rotor','file_path')
@@ -9,13 +17,19 @@ lon_in = cp.getfloat('rotor','lon')
 lat_in = cp.getfloat('rotor','lat')
 delta_el = cp.getfloat('rotor','delta_el')
 delta_az = cp.getfloat('rotor','delta_az')
+######################################
 
-fp = open(file_path, "rb")
-ecef_str=fp.read()
+try:
+	fp = open(file_path, "rb")
+	ecef_str=fp.read()
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(('127.0.0.1',port))
-os.system("clear")
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.connect(('127.0.0.1',port))
+	os.system("clear")
+
+except Exception as e:
+	print ERROR,e
+	exit()
 
 lon = lon_in/180.0*math.pi
 lat = lat_in/180.0*math.pi
@@ -28,9 +42,14 @@ while 1:
 
 	matchObj = re.search('%d (.*) (.*) (.*) (.*) (.*) (.*)'%timestamp,ecef_str)
 	
-	rx = float(matchObj.group(1))
-	ry = float(matchObj.group(2))
-	rz = float(matchObj.group(3))	
+	try:
+		rx = float(matchObj.group(1))
+		ry = float(matchObj.group(2))
+		rz = float(matchObj.group(3))	
+
+	except Exception as e:
+		print ERROR,"Tracking File is wrong."
+		exit()
 
 	r1x = math.cos(lon)*rx + math.sin(lon)*ry
 	r1y = -math.sin(lon)*rx + math.cos(lon)*ry
