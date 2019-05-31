@@ -7,6 +7,8 @@ file_path = cp.get('rotor','file_path')
 port = cp.getint('rotor','port')
 lon_in = cp.getfloat('rotor','lon')
 lat_in = cp.getfloat('rotor','lat')
+delta_el = cp.getfloat('rotor','delta_el')
+delta_az = cp.getfloat('rotor','delta_az')
 
 fp = open(file_path, "rb")
 ecef_str=fp.read()
@@ -49,7 +51,7 @@ while 1:
 	if (el*180.0/math.pi)<0:
 		el = 0
 
-	s.send("P %.2f %.2f\n\n"%(az*180.0/math.pi,el*180.0/math.pi))
+	s.send("P %.2f %.2f\n\n"%(az*180.0/math.pi+delta_az,el*180.0/math.pi+delta_el))
 	d = s.recv(1024)
 
 	time.sleep(1)
